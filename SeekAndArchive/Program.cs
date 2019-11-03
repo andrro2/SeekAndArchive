@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,8 +80,15 @@ namespace SeekAndArchive
             output.Write(buffer, 0, buffer.Length);
             sourceFile.Close();
             destFile.Close();
-            
-            
+            IsolatedStorageFile isolatedStorageFile = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+            isolatedStorageFile.CreateDirectory("Test");
+            IsolatedStorageFileStream stream = new IsolatedStorageFileStream(e.Name+formattedDateTime, FileMode.Create, isolatedStorageFile);
+            stream.Write(buffer, 0, buffer.Length);
+            stream.Close();
+
+
+
+
         }
     }
 }
